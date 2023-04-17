@@ -4,3 +4,4 @@ export function fetchCountries(name) {
       .then(response => response.json()) // Response handling
       .catch(error => console.log(error)) // Error handling
   } 
+// this promise 
