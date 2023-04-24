@@ -1,7 +1,7 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchImages } from './js/fetch_img';
 import { renderGallery } from './js/gallery_item';
 //import { onScroll } from './js/scroll_img';
@@ -15,6 +15,7 @@ const refs = {
 let query = '';
 let page = 1;
 const perPage = 40;
+let simpleLightBox; 
 
 
 refs.searchForm.addEventListener('submit', onSearchImages);
@@ -38,14 +39,16 @@ function onSearchImages(ev) {
 
  fetchImages (query, page, perPage)
  .then(({data}) => {
+  console.log(data);
   if (data.totalHits === 0) {
     alertNoImages();
   }
    else {
     renderGallery(data.hits);
+    alertHitsImages(data);
     refs.loadMoreBtn.classList.add('is-hidden')
     simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-    alertHitsImages(data);
+    
   }
   if (data.totalHits > perPage) {
     refs.loadMoreBtn.classList.remove('is-hidden')
@@ -60,8 +63,9 @@ function onLoadMore() {
   fetchImages( query, page, perPage)
     .then(({data}) => {
       renderGallery(data.hits);
+      const totalPages = Math.ceil(data.totalHits / perPage);
       simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-      const totalPages = Math.ceil(data.totalHits / perPage)
+      
 
       if (page > totalPages) {
         refs.loadMoreBtn.classList.add('is-hidden')
