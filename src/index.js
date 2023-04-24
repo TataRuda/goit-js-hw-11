@@ -45,7 +45,7 @@ function onSearchImages(ev) {
     renderGallery(data.hits);
     refs.loadMoreBtn.classList.add('is-hidden')
     simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-    alertHitsImages();
+    alertHitsImages(data);
   }
   if (data.totalHits > perPage) {
     refs.loadMoreBtn.classList.remove('is-hidden')
