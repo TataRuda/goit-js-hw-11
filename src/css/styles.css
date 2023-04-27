@@ -147,3 +147,18 @@ box-shadow: 8px 8px 24px 0px rgba(143, 144, 175, 1);}
   color: #fafafa;
   transition-duration: 0.4s;
 }
+.btn-top {
+  width: 40px;
+  height: 40px;
+  margin-top: 10px;
+  color: #fafafa;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  fill: #9c8eab; 
+}
+
+.btn-top--visible {
+  opacity: 1;
+  visibility: visible;
+}

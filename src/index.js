@@ -21,6 +21,7 @@ refs.searchForm.addEventListener('submit', onSearchImages);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 onScroll();
+onTopBtn();
 
 // Create function for searching 
 function onSearchImages(ev) {
@@ -65,7 +66,7 @@ function onLoadMore() {
       const totalPages = Math.ceil(data.totalHits / perPage);
       simpleLightBox = new SimpleLightbox('.gallery a').refresh();
             
-      if (totalPages < page) {
+      if (page > totalPages) {
         refs.loadMoreBtn.classList.add('is-hidden');
         alertEndOfImages();
       }
