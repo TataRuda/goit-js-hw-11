@@ -4,7 +4,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchImages } from './js/fetch_img';
 import { renderGallery } from './js/gallery_item';
-//import { onScroll } from './js/scroll_img';
+import { onScroll } from './js/scroll_img';
 
 const refs = {
   searchForm: document.getElementById('search-form'),
@@ -17,18 +17,17 @@ let page = 1;
 const perPage = 40;
 let simpleLightBox; 
 
-
 refs.searchForm.addEventListener('submit', onSearchImages);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
-//onScroll()
+onScroll();
 
 // Create function for searching 
 function onSearchImages(ev) {
  ev.preventDefault()
- //window.scrollTo({ top: 0 })
  page = 1
  query = ev.currentTarget.searchQuery.value.trim()
+ refs.loadMoreBtn.classList.add('is-hidden')
  refs.gallery.innerHTML = ''
 
 
@@ -36,7 +35,7 @@ function onSearchImages(ev) {
   alertEmptyString();
   return
  }
-
+ 
  fetchImages (query, page, perPage)
  .then(({data}) => {
   console.log(data);
@@ -46,17 +45,17 @@ function onSearchImages(ev) {
    else {
     renderGallery(data.hits);
     alertHitsImages(data);
-    refs.loadMoreBtn.classList.add('is-hidden')
     simpleLightBox = new SimpleLightbox('.gallery a').refresh();
     
   }
-  if (data.totalHits > perPage) {
+  if (data.totalHits < perPage) {
     refs.loadMoreBtn.classList.remove('is-hidden')
   }
  })
  .catch(error => console.log(error))
-}
 
+ }
+ 
 function onLoadMore() {
   page += 1
 
@@ -65,11 +64,10 @@ function onLoadMore() {
       renderGallery(data.hits);
       const totalPages = Math.ceil(data.totalHits / perPage);
       simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-      
-
-      if (page > totalPages) {
-        refs.loadMoreBtn.classList.add('is-hidden')
-        alertEndOfImages()
+            
+      if (totalPages < page) {
+        refs.loadMoreBtn.classList.add('is-hidden');
+        alertEndOfImages();
       }
     }
     )
