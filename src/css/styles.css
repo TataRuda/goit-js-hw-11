@@ -141,8 +141,8 @@ box-shadow: 8px 8px 24px 0px rgba(143, 144, 175, 1);}
 .load-more.is-hidden {
   display: block;
 }
-.is-hidden:hover,
-.is-hidden:focus {
+.load-more:hover,
+.load-more:focus {
   background-color: #1260a4;
   color: #fafafa;
   transition-duration: 0.4s;
