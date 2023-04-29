@@ -4,7 +4,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchImages } from './js/fetch_img';
 import { renderGallery } from './js/gallery_item';
-import { onScroll } from './js/scroll_img';
+import { onScroll, onTopBtn } from './js/scroll_img';
 
 const refs = {
   searchForm: document.getElementById('search-form'),
@@ -31,8 +31,8 @@ function onSearchImages(ev) {
  refs.loadMoreBtn.classList.add('is-hidden')
  refs.gallery.innerHTML = ''
 
-
  if (query === '') {
+  refs.loadMoreBtn.classList.remove('is-hidden');
   alertEmptyString();
   return
  }
