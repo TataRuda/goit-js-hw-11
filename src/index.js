@@ -4,7 +4,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchImages } from './js/fetch_img';
 import { renderGallery } from './js/gallery_item';
-import { onScroll, onTopBtn } from './js/scroll_img';
+import { onScroll, onTopBtn, smoothScroll } from './js/scroll_img';
 
 const refs = {
   searchForm: document.getElementById('search-form'),
@@ -47,15 +47,14 @@ function onSearchImages(ev) {
     renderGallery(data.hits);
     alertHitsImages(data);
     simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-    
-  }
+    }
   if (data.totalHits < perPage) {
     refs.loadMoreBtn.classList.remove('is-hidden')
   }
  })
  .catch(error => console.log(error))
-
- }
+ 
+}
  
 function onLoadMore() {
   page += 1
@@ -65,11 +64,12 @@ function onLoadMore() {
       renderGallery(data.hits);
       const totalPages = Math.ceil(data.totalHits / perPage);
       simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-            
+           
       if (page > totalPages) {
         refs.loadMoreBtn.classList.add('is-hidden');
         alertEndOfImages();
       }
+      smoothScroll();
     }
     )
     .catch(error => console.log(error))
